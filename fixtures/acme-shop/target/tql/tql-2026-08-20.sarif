@@ -1,0 +1,329 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "test-quality-linter",
+          "version": "1.0.0",
+          "informationUri": "https://github.com/byreshb/test-quality-linter",
+          "rules": [
+            {
+              "id": "TQL001",
+              "name": "TautologicalAssertion",
+              "shortDescription": {
+                "text": "Assertion compares a value with itself"
+              },
+              "helpUri": "https://github.com/byreshb/test-quality-linter/blob/main/docs/rules/TQL001.md",
+              "defaultConfiguration": {
+                "level": "error"
+              }
+            },
+            {
+              "id": "TQL002",
+              "name": "ConstantAssertion",
+              "shortDescription": {
+                "text": "Both sides of the assertion are constants"
+              },
+              "helpUri": "https://github.com/byreshb/test-quality-linter/blob/main/docs/rules/TQL002.md",
+              "defaultConfiguration": {
+                "level": "error"
+              }
+            },
+            {
+              "id": "TQL003",
+              "name": "NoAssertion",
+              "shortDescription": {
+                "text": "Test method has no assertion"
+              },
+              "helpUri": "https://github.com/byreshb/test-quality-linter/blob/main/docs/rules/TQL003.md",
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "TQL004",
+              "name": "AssertsOnStub",
+              "shortDescription": {
+                "text": "Assertion checks a stubbed value against the stub"
+              },
+              "helpUri": "https://github.com/byreshb/test-quality-linter/blob/main/docs/rules/TQL004.md",
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "TQL006",
+              "name": "HardcodedSleep",
+              "shortDescription": {
+                "text": "Fixed sleep instead of a condition-based wait"
+              },
+              "helpUri": "https://github.com/byreshb/test-quality-linter/blob/main/docs/rules/TQL006.md",
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "TQL007",
+              "name": "SwallowedException",
+              "shortDescription": {
+                "text": "Exception caught and ignored in a test"
+              },
+              "helpUri": "https://github.com/byreshb/test-quality-linter/blob/main/docs/rules/TQL007.md",
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "TQL009",
+              "name": "DisabledWithoutReason",
+              "shortDescription": {
+                "text": "@Disabled without a reason"
+              },
+              "helpUri": "https://github.com/byreshb/test-quality-linter/blob/main/docs/rules/TQL009.md",
+              "defaultConfiguration": {
+                "level": "note"
+              }
+            }
+          ]
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "startTimeUtc": "2026-08-20T10:02:11Z",
+          "endTimeUtc": "2026-08-20T10:02:15Z"
+        }
+      ],
+      "versionControlProvenance": [
+        {
+          "repositoryUri": "https://github.com/acme/shop",
+          "revisionId": "c12",
+          "branch": "main"
+        }
+      ],
+      "properties": {
+        "filesScanned": 12
+      },
+      "results": [
+        {
+          "ruleId": "TQL001",
+          "level": "error",
+          "message": {
+            "text": "assertEquals(cart.size(), cart.size()) always passes"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/CartTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 42,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Compare against the expected size, for example assertEquals(2, cart.size())"
+          }
+        },
+        {
+          "ruleId": "TQL003",
+          "level": "warning",
+          "message": {
+            "text": "Test 'clearsCart' has no assertion"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/CartTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 58,
+                  "startColumn": 3
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Assert on cart.isEmpty() after clearing"
+          }
+        },
+        {
+          "ruleId": "TQL003",
+          "level": "warning",
+          "message": {
+            "text": "Test 'mergesCarts' has no assertion"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/CartTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 71,
+                  "startColumn": 3
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Assert on the merged item list"
+          }
+        },
+        {
+          "ruleId": "TQL002",
+          "level": "error",
+          "message": {
+            "text": "assertTrue(true) cannot fail"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/CheckoutTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 33,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Assert on the checkout result"
+          }
+        },
+        {
+          "ruleId": "TQL004",
+          "level": "warning",
+          "message": {
+            "text": "Asserts the stubbed coupon value 'SAVE10' returned by the mock"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/CheckoutTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Assert on the discounted total instead of the stub's return value"
+          }
+        },
+        {
+          "ruleId": "TQL006",
+          "level": "warning",
+          "message": {
+            "text": "Thread.sleep(2000) before reading the order status"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/CheckoutTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 104,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Use Awaitility or a polling wait on the order status"
+          }
+        },
+        {
+          "ruleId": "TQL006",
+          "level": "warning",
+          "message": {
+            "text": "Thread.sleep(500) waiting for the index"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/SearchTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 27,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Wait for the index to report ready"
+          }
+        },
+        {
+          "ruleId": "TQL007",
+          "level": "warning",
+          "message": {
+            "text": "Catch block only prints the exception"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/InventoryTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 61,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Let the exception propagate or assertThrows"
+          }
+        },
+        {
+          "ruleId": "TQL009",
+          "level": "note",
+          "message": {
+            "text": "@Disabled without a reason"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/ReportTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 15,
+                  "startColumn": 3
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Add a reason and an issue link, or delete the test"
+          }
+        }
+      ]
+    }
+  ]
+}

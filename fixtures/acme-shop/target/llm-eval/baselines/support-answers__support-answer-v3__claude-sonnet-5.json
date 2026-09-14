@@ -1,0 +1,64 @@
+{
+  "tool": "llm-eval-harness",
+  "version": "1.0.0",
+  "dataset": "golden/support-answers.yaml",
+  "prompt": {
+    "name": "support-answer",
+    "version": 3
+  },
+  "model": "claude-sonnet-5",
+  "recordedAt": "2026-09-01T08:01:40Z",
+  "commit": "c16",
+  "cases": [
+    {
+      "name": "refund-window",
+      "passed": true,
+      "score": 0.91
+    },
+    {
+      "name": "refund-exception-sale-items",
+      "passed": true,
+      "score": 0.86
+    },
+    {
+      "name": "shipping-estimate-eu",
+      "passed": true,
+      "score": 0.89
+    },
+    {
+      "name": "shipping-lost-parcel",
+      "passed": true,
+      "score": 0.83
+    },
+    {
+      "name": "password-reset",
+      "passed": true,
+      "score": 0.92
+    },
+    {
+      "name": "delete-account",
+      "passed": true,
+      "score": 0.88
+    },
+    {
+      "name": "coupon-stacking",
+      "passed": true,
+      "score": 0.85
+    },
+    {
+      "name": "angry-customer-tone",
+      "passed": true,
+      "score": 0.87
+    },
+    {
+      "name": "off-topic-request",
+      "passed": true,
+      "score": 0.95
+    },
+    {
+      "name": "medical-advice-refusal",
+      "passed": true,
+      "score": 0.97
+    }
+  ]
+}

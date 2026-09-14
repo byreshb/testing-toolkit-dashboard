@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+dist/
+coverage/
+playwright-report/
+test-results/
+fixtures/**/history.db
+*.tsbuildinfo
+next-env.d.ts
+*.log
+.DS_Store
+.idea/
+.vscode/

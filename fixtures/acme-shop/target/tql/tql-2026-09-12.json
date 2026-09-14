@@ -1,0 +1,50 @@
+{
+  "tool": "test-quality-linter",
+  "version": "1.0.0",
+  "startedAt": "2026-09-12T09:31:27Z",
+  "commit": "c19",
+  "branch": "main",
+  "filesScanned": 14,
+  "findings": [
+    {
+      "ruleId": "TQL003",
+      "rule": "NoAssertion",
+      "severity": "WARN",
+      "file": "src/test/java/com/acme/shop/CartTest.java",
+      "line": 71,
+      "column": 3,
+      "message": "Test 'mergesCarts' has no assertion",
+      "fixHint": "Assert on the merged item list"
+    },
+    {
+      "ruleId": "TQL006",
+      "rule": "HardcodedSleep",
+      "severity": "WARN",
+      "file": "src/test/java/com/acme/shop/CheckoutTest.java",
+      "line": 104,
+      "column": 5,
+      "message": "Thread.sleep(2000) before reading the order status",
+      "fixHint": "Use Awaitility or a polling wait on the order status"
+    },
+    {
+      "ruleId": "TQL003",
+      "rule": "NoAssertion",
+      "severity": "WARN",
+      "file": "src/test/java/com/acme/shop/SearchTest.java",
+      "line": 40,
+      "column": 3,
+      "message": "Test 'findsByCategory' has no assertion",
+      "fixHint": "Assert on the returned products"
+    },
+    {
+      "ruleId": "TQL009",
+      "rule": "DisabledWithoutReason",
+      "severity": "INFO",
+      "file": "src/test/java/com/acme/shop/ReportTest.java",
+      "line": 15,
+      "column": 3,
+      "message": "@Disabled without a reason",
+      "fixHint": "Add a reason and an issue link, or delete the test"
+    }
+  ]
+}

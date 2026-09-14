@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "test-quality-linter",
+          "version": "1.0.0",
+          "informationUri": "https://github.com/byreshb/test-quality-linter",
+          "rules": [
+            {
+              "id": "TQL003",
+              "name": "NoAssertion",
+              "shortDescription": {
+                "text": "Test method has no assertion"
+              },
+              "helpUri": "https://github.com/byreshb/test-quality-linter/blob/main/docs/rules/TQL003.md",
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "TQL004",
+              "name": "AssertsOnStub",
+              "shortDescription": {
+                "text": "Assertion checks a stubbed value against the stub"
+              },
+              "helpUri": "https://github.com/byreshb/test-quality-linter/blob/main/docs/rules/TQL004.md",
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "TQL006",
+              "name": "HardcodedSleep",
+              "shortDescription": {
+                "text": "Fixed sleep instead of a condition-based wait"
+              },
+              "helpUri": "https://github.com/byreshb/test-quality-linter/blob/main/docs/rules/TQL006.md",
+              "defaultConfiguration": {
+                "level": "warning"
+              }
+            },
+            {
+              "id": "TQL009",
+              "name": "DisabledWithoutReason",
+              "shortDescription": {
+                "text": "@Disabled without a reason"
+              },
+              "helpUri": "https://github.com/byreshb/test-quality-linter/blob/main/docs/rules/TQL009.md",
+              "defaultConfiguration": {
+                "level": "note"
+              }
+            }
+          ]
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true,
+          "startTimeUtc": "2026-09-10T09:58:03Z",
+          "endTimeUtc": "2026-09-10T09:58:07Z"
+        }
+      ],
+      "versionControlProvenance": [
+        {
+          "repositoryUri": "https://github.com/acme/shop",
+          "revisionId": "c18",
+          "branch": "main"
+        }
+      ],
+      "properties": {
+        "filesScanned": 14
+      },
+      "results": [
+        {
+          "ruleId": "TQL003",
+          "level": "warning",
+          "message": {
+            "text": "Test 'mergesCarts' has no assertion"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/CartTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 71,
+                  "startColumn": 3
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Assert on the merged item list"
+          }
+        },
+        {
+          "ruleId": "TQL004",
+          "level": "warning",
+          "message": {
+            "text": "Asserts the stubbed coupon value 'SAVE10' returned by the mock"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/CheckoutTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Assert on the discounted total instead of the stub's return value"
+          }
+        },
+        {
+          "ruleId": "TQL006",
+          "level": "warning",
+          "message": {
+            "text": "Thread.sleep(2000) before reading the order status"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/CheckoutTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 104,
+                  "startColumn": 5
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Use Awaitility or a polling wait on the order status"
+          }
+        },
+        {
+          "ruleId": "TQL003",
+          "level": "warning",
+          "message": {
+            "text": "Test 'findsByCategory' has no assertion"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/SearchTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 40,
+                  "startColumn": 3
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Assert on the returned products"
+          }
+        },
+        {
+          "ruleId": "TQL009",
+          "level": "note",
+          "message": {
+            "text": "@Disabled without a reason"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/test/java/com/acme/shop/ReportTest.java",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 15,
+                  "startColumn": 3
+                }
+              }
+            }
+          ],
+          "properties": {
+            "fixHint": "Add a reason and an issue link, or delete the test"
+          }
+        }
+      ]
+    }
+  ]
+}

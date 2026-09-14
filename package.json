@@ -1,0 +1,56 @@
+{
+  "name": "testing-toolkit-dashboard",
+  "version": "1.0.0-dev",
+  "description": "Web dashboard for test health: flaky-test trends, test-quality findings and LLM evaluation drift, read from the files the testing toolkit produces",
+  "license": "Apache-2.0",
+  "private": false,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byreshb/testing-toolkit-dashboard.git"
+  },
+  "homepage": "https://github.com/byreshb/testing-toolkit-dashboard#readme",
+  "bugs": {
+    "url": "https://github.com/byreshb/testing-toolkit-dashboard/issues"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "fixtures": "node scripts/build-fixtures.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "check": "tsc --noEmit && eslint . && prettier --check .",
+    "pretest": "npm run fixtures",
+    "test": "vitest run --coverage",
+    "pretest:e2e": "npm run fixtures",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "better-sqlite3": "13.0.3",
+    "next": "16.3.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@next/eslint-plugin-next": "16.3.5",
+    "@playwright/test": "1.63.0",
+    "@types/better-sqlite3": "7.6.13",
+    "@types/node": "22.20.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitest/coverage-v8": "5.0.0",
+    "eslint": "10.10.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "prettier": "3.9.6",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.70.0",
+    "vitest": "5.0.0"
+  }
+}

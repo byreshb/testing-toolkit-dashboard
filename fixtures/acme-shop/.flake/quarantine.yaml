@@ -1,0 +1,14 @@
+# Quarantine ledger written by `flake quarantine add`.
+entries:
+  - test: com.acme.shop.CheckoutTest#appliesCoupon
+    reason: Coupon service stub races with the cart cache on CI
+    owner: byresh
+    added: 2026-08-25
+    expires: 2026-09-20
+    issue: https://github.com/acme/shop/issues/412
+  - test: com.acme.shop.InventoryTest#reservesStock
+    reason: Clock skew on the ARM runner
+    owner: priya
+    added: 2026-06-01
+    expires: 2026-08-30
+    issue: https://github.com/acme/shop/issues/377
