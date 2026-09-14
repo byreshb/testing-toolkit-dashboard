@@ -26,6 +26,43 @@ have written to.
   the system preference. Charts use a small dependency; sparklines are inline SVG rendered on
   the server.
 
+## Data layer
+
+| Module          | Reads                                       | Produces                                                       |
+| --------------- | ------------------------------------------- | -------------------------------------------------------------- |
+| `config.ts`     | `--data`, `TOOLKIT_DATA_DIR`, `TOOLKIT_NOW` | the data directory, each tool's directory inside it, "now"     |
+| `flake.ts`      | `history.db`                                | run history, a `FlakeScore` per test, weekly flakiness trend   |
+| `quarantine.ts` | `quarantine.yaml`                           | ledger entries classified as active, expiring or expired       |
+| `tql.ts`        | `*.sarif`, `*.json`                         | lint runs, findings per rule over time, worst files, summary   |
+| `evals.ts`      | `*.json`, `baselines/*.json`                | eval reports, variants per prompt and model, drift, tag scores |
+| `overview.ts`   | all of the above                            | the three summaries the overview tiles show                    |
+
+Every reader returns `undefined` or an empty list when its files are absent, never throws for a
+missing tool, and tolerates unknown fields so newer tool versions keep working.
+
+### Flakiness score
+
+The detector computes and reports its own score; the dashboard recomputes a comparable score
+from the raw run history so that it can show the trend over any window. The dashboard score
+is the sum of three weighted components, each in `[0, 1]`:
+
+| Component                          | Weight | Meaning                                                                  |
+| ---------------------------------- | ------ | ------------------------------------------------------------------------ |
+| Rerun recovery rate (Wilson lower) | 0.5    | Failures that passed on a retry of the same commit; the strongest signal |
+| Flip rate (Wilson lower bound)     | 0.3    | Consecutive runs on the same commit with different outcomes              |
+| Failure message entropy            | 0.2    | Many distinct failure messages suggest environment, one suggests a bug   |
+
+Rates use the lower bound of a 95% Wilson score interval, so one recovered failure scores far
+below eight recovered failures at the same rate. A test scoring at least 0.2 is counted as
+flaky in the summaries. Cramér's V between runner label and outcome is reported next to the
+score and never weighted, as in the detector. A test that fails the same way on every run after
+a commit has no flips and no recoveries, so it scores zero: that is a regression, not
+flakiness, and the page says so.
+
+The weekly trend counts one _execution_ per test and build; an execution is flaky when its
+outcomes were mixed inside the build (a Surefire rerun) or its final outcome differs from the
+previous execution of the same test on the same commit (a re-run of the workflow).
+
 ## Pages
 
 1. **Overview**: three tiles (flakiness, findings, eval score) each with a sparkline of the

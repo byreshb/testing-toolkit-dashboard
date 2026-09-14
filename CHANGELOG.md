@@ -8,6 +8,11 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Data layer: readers for the flake detector's `history.db` and `quarantine.yaml`, the
+  linter's SARIF and JSON reports, and the eval harness's reports and baselines, with
+  flakiness scoring (rerun recovery, flip rate with Wilson intervals, failure-message
+  entropy, runner correlation), weekly flakiness trend, findings per rule over time,
+  prompt-version variants, drift comparison and per-tag scores.
 - Project skeleton: Next.js application shell, TypeScript strict configuration, ESLint,
   Prettier, Vitest with an 85% line-coverage gate, GitHub Actions CI and release workflows.
 - Fixture data for one sample repository (`fixtures/acme-shop`) covering the flake detector's
