@@ -10,3 +10,5 @@ fixtures/**/*.db
 /*.md
 !/README.md
 !/CHANGELOG.md
+# rewritten by next build in its own style
+tsconfig.json
