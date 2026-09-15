@@ -1,0 +1,51 @@
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 0.5rem 0 1rem;
+  color: var(--fg-secondary);
+}
+
+.summary strong {
+  color: var(--fg);
+}
+
+.rule {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.location {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.fixHint {
+  color: var(--fg-secondary);
+}
+
+.findingsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.finding {
+  padding: 0.65rem 0.85rem;
+}
+
+.findingHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.message {
+  margin: 0.2rem 0;
+}

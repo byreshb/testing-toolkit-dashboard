@@ -8,6 +8,9 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Test quality page: findings-over-time trend chart, a findings-per-rule table with a
+  sparkline and severity per rule, the worst files from the latest run, and the latest run's
+  findings with fix hints. Backed by `/api/quality`.
 - Overview page with three stat tiles (flaky tests, test-quality findings, LLM eval score),
   each with a trend sparkline, a delta against the previous period, and a warning list for
   expired and soon-to-expire quarantine entries.
