@@ -1,0 +1,27 @@
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 0.5rem 0 1rem;
+  color: var(--fg-secondary);
+}
+
+.summary strong {
+  color: var(--fg);
+}
+
+.score {
+  font-weight: 600;
+}
+
+.interval {
+  color: var(--fg-muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.test {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  word-break: break-all;
+}

@@ -1,0 +1,23 @@
+.svg {
+  display: block;
+  overflow: visible;
+}
+
+.line {
+  fill: none;
+  stroke: var(--series-1-soft);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.current {
+  fill: var(--series-1);
+  stroke: var(--bg-elevated);
+  stroke-width: 2;
+}
+
+.none {
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+}

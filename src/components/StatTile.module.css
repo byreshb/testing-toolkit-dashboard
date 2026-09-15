@@ -1,0 +1,55 @@
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-height: 9.5rem;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--fg-secondary);
+}
+
+.label a {
+  color: inherit;
+}
+
+.value {
+  font-size: 2.25rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.detail {
+  color: var(--fg-muted);
+  font-size: 0.85rem;
+}
+
+.delta {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.deltaGood {
+  color: var(--delta-good);
+}
+
+.deltaBad {
+  color: var(--delta-bad);
+}
+
+.deltaFlat {
+  color: var(--fg-muted);
+}
+
+.trend {
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.empty {
+  color: var(--fg-secondary);
+  font-size: 0.9rem;
+}

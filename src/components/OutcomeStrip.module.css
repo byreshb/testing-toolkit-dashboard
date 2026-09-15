@@ -1,0 +1,62 @@
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  color: #0b0b0b;
+  background: var(--grid);
+}
+
+.pass {
+  background: var(--status-good);
+  color: #ffffff;
+}
+
+.recovered {
+  background: var(--status-warning);
+}
+
+.fail {
+  background: var(--status-critical);
+  color: #ffffff;
+}
+
+.skipped {
+  background: var(--grid);
+  color: var(--fg-secondary);
+}
+
+.letter {
+  pointer-events: none;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+}
