@@ -8,6 +8,8 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- `Dockerfile`: a multi-stage build around the same standalone server the `npx` launcher runs,
+  verified locally (`docker build` then `docker run` against a mounted fixture directory).
 - `bin/cli.js` launcher (`testing-toolkit-dashboard --data <dir>`) running the Next.js
   standalone build; `next.config.ts` now builds that standalone server and trims the fixture
   data and test files the file tracer would otherwise sweep in.

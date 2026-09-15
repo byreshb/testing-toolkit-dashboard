@@ -92,6 +92,20 @@ node bin/cli.js --data fixtures/acme-shop --port 3000
 `--port` defaults to 3000 (or `PORT`); `--data` takes precedence over `TOOLKIT_DATA_DIR`, and
 `TOOLKIT_REPOS`/`TOOLKIT_NOW` work the same as in development.
 
+### Docker
+
+```bash
+docker build -t testing-toolkit-dashboard .
+docker run --rm -p 3000:3000 \
+  -v "$PWD/fixtures/acme-shop":/data:ro \
+  -e TOOLKIT_DATA_DIR=/data \
+  testing-toolkit-dashboard
+```
+
+Mount your own repository's root at `/data` (or set `TOOLKIT_REPOS` to mount several) instead
+of the sample fixtures. The image is a multi-stage build around the same standalone server
+`bin/cli.js` runs, so it needs no `npm install` beyond the build itself.
+
 ## Building and testing
 
 ```bash
