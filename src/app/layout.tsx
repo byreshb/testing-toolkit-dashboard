@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
+import { NavBar } from "@/components/NavBar";
+import { NavBarFallback } from "@/components/NavBarFallback";
+import { resolveRepos } from "@/data/config";
 import "./globals.css";
 import styles from "./layout.module.css";
 
@@ -9,14 +12,8 @@ export const metadata: Metadata = {
   description: "Test health over time: flaky tests, test quality findings and LLM evaluation drift",
 };
 
-const NAV = [
-  { href: "/", label: "Overview" },
-  { href: "/flaky", label: "Flaky tests" },
-  { href: "/quality", label: "Test quality" },
-  { href: "/evals", label: "LLM evals" },
-];
-
 export default function RootLayout({ children }: { children: ReactNode }) {
+  const repos = resolveRepos().map((r) => r.name);
   return (
     <html lang="en">
       <body>
@@ -24,13 +21,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Link href="/" className={styles.brand}>
             Testing toolkit dashboard
           </Link>
-          <nav className={styles.nav} aria-label="Main">
-            {NAV.map((item) => (
-              <Link key={item.href} href={item.href}>
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+          <Suspense fallback={<NavBarFallback />}>
+            <NavBar repos={repos} />
+          </Suspense>
         </header>
         <main className={styles.main}>{children}</main>
       </body>

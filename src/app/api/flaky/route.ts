@@ -1,11 +1,11 @@
-import { dashboardContext } from "@/server/context";
+import { dashboardContext, repoFromRequest } from "@/server/context";
 import { flakyView } from "@/server/flaky";
 
 export const dynamic = "force-dynamic";
 
 /** Ranked tests (without per-build history), the summary and the quarantine ledger. */
-export function GET(): Response {
-  const view = flakyView(dashboardContext());
+export function GET(request: Request): Response {
+  const view = flakyView(dashboardContext(repoFromRequest(request)));
   if (view === undefined) {
     return Response.json({ error: "no flake history found" }, { status: 404 });
   }

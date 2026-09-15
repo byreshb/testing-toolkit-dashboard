@@ -1,9 +1,9 @@
 import { readOverview } from "@/data/overview";
-import { dashboardContext } from "@/server/context";
+import { dashboardContext, repoFromRequest } from "@/server/context";
 
 export const dynamic = "force-dynamic";
 
-export function GET(): Response {
-  const { dataDir, now } = dashboardContext();
+export function GET(request: Request): Response {
+  const { dataDir, now } = dashboardContext(repoFromRequest(request));
   return Response.json(readOverview(dataDir, now));
 }

@@ -1,14 +1,15 @@
 import { EmptyState } from "@/components/EmptyState";
 import { TrendChart } from "@/components/TrendChart";
 import { formatDate, formatDelta, formatPercent, formatScore } from "@/lib/format";
-import { dashboardContext } from "@/server/context";
+import { dashboardContext, type PageSearchParams } from "@/server/context";
 import { evalsView } from "@/server/evals";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
-export default function EvalsPage() {
-  const context = dashboardContext();
+export default async function EvalsPage({ searchParams }: { searchParams: PageSearchParams }) {
+  const { repo } = await searchParams;
+  const context = dashboardContext(repo);
   const view = evalsView(context);
   if (view === undefined) {
     return (

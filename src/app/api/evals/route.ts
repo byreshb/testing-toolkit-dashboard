@@ -1,10 +1,10 @@
-import { dashboardContext } from "@/server/context";
+import { dashboardContext, repoFromRequest } from "@/server/context";
 import { evalsView } from "@/server/evals";
 
 export const dynamic = "force-dynamic";
 
-export function GET(): Response {
-  const view = evalsView(dashboardContext());
+export function GET(request: Request): Response {
+  const view = evalsView(dashboardContext(repoFromRequest(request)));
   if (view === undefined) {
     return Response.json({ error: "no eval reports found" }, { status: 404 });
   }

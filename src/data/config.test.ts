@@ -2,7 +2,7 @@ import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { resolveDataDir, resolveNow, resolveToolDirs } from "./config";
+import { resolveDataDir, resolveNow, resolveRepos, resolveToolDirs, selectRepo } from "./config";
 
 const FIXTURE_REPO = resolve("fixtures/acme-shop");
 
@@ -76,5 +76,56 @@ describe("resolveNow", () => {
     const before = Date.now();
     expect(resolveNow({}).getTime()).toBeGreaterThanOrEqual(before);
     expect(resolveNow({ TOOLKIT_NOW: "not a date" }).getTime()).toBeGreaterThanOrEqual(before);
+  });
+});
+
+describe("resolveRepos", () => {
+  it("parses name=path entries from TOOLKIT_REPOS, resolved against the working directory", () => {
+    const repos = resolveRepos({
+      env: { TOOLKIT_REPOS: "acme=./acme, widgets = /abs/widgets " },
+      cwd: "/cwd",
+    });
+    expect(repos).toEqual([
+      { name: "acme", dir: "/cwd/acme" },
+      { name: "widgets", dir: "/abs/widgets" },
+    ]);
+  });
+
+  it("skips blank entries", () => {
+    expect(resolveRepos({ env: { TOOLKIT_REPOS: "a=./a,,  ," }, cwd: "/cwd" })).toEqual([
+      { name: "a", dir: "/cwd/a" },
+    ]);
+  });
+
+  it("treats an entry with no = as both the name and the path", () => {
+    expect(resolveRepos({ env: { TOOLKIT_REPOS: "./only" }, cwd: "/cwd" })).toEqual([
+      { name: "./only", dir: "/cwd/only" },
+    ]);
+  });
+
+  it("falls back to a single repo named after --data/TOOLKIT_DATA_DIR when unset", () => {
+    expect(
+      resolveRepos({ argv: ["--data", "/cwd/fixtures/acme-shop"], env: {}, cwd: "/cwd" }),
+    ).toEqual([{ name: "acme-shop", dir: "/cwd/fixtures/acme-shop" }]);
+    expect(resolveRepos({ argv: [], env: { TOOLKIT_REPOS: "  " }, cwd: "/cwd" })).toEqual([
+      { name: "cwd", dir: "/cwd" },
+    ]);
+  });
+});
+
+describe("selectRepo", () => {
+  const repos = [
+    { name: "a", dir: "/a" },
+    { name: "b", dir: "/b" },
+  ];
+
+  it("picks the named repo, or the first one when the name is missing or unknown", () => {
+    expect(selectRepo(repos, "b")).toEqual({ name: "b", dir: "/b" });
+    expect(selectRepo(repos)).toEqual({ name: "a", dir: "/a" });
+    expect(selectRepo(repos, "nope")).toEqual({ name: "a", dir: "/a" });
+  });
+
+  it("returns undefined for an empty list", () => {
+    expect(selectRepo([])).toBeUndefined();
   });
 });

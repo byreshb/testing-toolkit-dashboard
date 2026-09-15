@@ -13,16 +13,6 @@
   color: var(--fg);
 }
 
-.nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 1rem;
-}
-
-.nav a {
-  color: var(--fg-muted);
-}
-
 .main {
   max-width: 1200px;
   margin: 0 auto;

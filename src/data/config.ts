@@ -1,5 +1,5 @@
 import { existsSync } from "node:fs";
-import { isAbsolute, resolve } from "node:path";
+import { basename, isAbsolute, resolve } from "node:path";
 
 /** Environment variables, as a plain record so callers can pass a subset. */
 export type Env = Readonly<Record<string, string | undefined>>;
@@ -85,6 +85,47 @@ function firstExisting(
     }
   }
   return undefined;
+}
+
+export interface RepoConfig {
+  name: string;
+  dir: string;
+}
+
+/**
+ * The repositories the dashboard can show. When `TOOLKIT_REPOS` (a comma-separated list of
+ * `name=path` entries, for example `acme-shop=../acme-shop,widgets=../widgets`) is set, those
+ * are the choices, each path resolved against the working directory like `--data`. Otherwise
+ * there is exactly one repository, resolved the same way as before (`--data`,
+ * `TOOLKIT_DATA_DIR`, the working directory) and named after its last path segment.
+ */
+export function resolveRepos(options: ResolveOptions = {}): RepoConfig[] {
+  const env = options.env ?? process.env;
+  const cwd = options.cwd ?? process.cwd();
+  const raw = env.TOOLKIT_REPOS;
+  const entries = (raw ?? "")
+    .split(",")
+    .map((entry) => entry.trim())
+    .filter((entry) => entry !== "");
+  if (entries.length > 0) {
+    return entries.map((entry) => {
+      const eq = entry.indexOf("=");
+      const name = eq === -1 ? entry : entry.slice(0, eq).trim();
+      const rawDir = (eq === -1 ? entry : entry.slice(eq + 1)).trim();
+      const dir = isAbsolute(rawDir) ? rawDir : resolve(cwd, rawDir);
+      return { name, dir };
+    });
+  }
+  const dataDir = resolveDataDir(options);
+  return [{ name: basename(dataDir) || dataDir, dir: dataDir }];
+}
+
+/** Picks the repo named `repoName`, falling back to the first configured repo. */
+export function selectRepo(
+  repos: readonly RepoConfig[],
+  repoName?: string,
+): RepoConfig | undefined {
+  return (repoName === undefined ? undefined : repos.find((r) => r.name === repoName)) ?? repos[0];
 }
 
 /**

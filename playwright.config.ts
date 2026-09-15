@@ -20,7 +20,10 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
     env: {
-      TOOLKIT_DATA_DIR: "fixtures/acme-shop",
+      // Two repos, both pointing at the same fixture data, so the switcher itself is
+      // exercised end to end without a second fixture set to maintain. "acme-shop" is first
+      // so it stays the default repo every other spec file assumes.
+      TOOLKIT_REPOS: "acme-shop=fixtures/acme-shop,acme-shop-mirror=fixtures/acme-shop",
       TOOLKIT_NOW: "2026-09-13T12:00:00Z",
     },
   },

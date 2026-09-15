@@ -55,12 +55,23 @@ To look at your own project, set `TOOLKIT_DATA_DIR` to its root. The dashboard l
 `.flake/history.db`, `target/tql/*.sarif` and `target/llm-eval/*.json`, the tools' default
 locations. See [docs/data-format.md](docs/data-format.md) for the alternatives.
 
+To show several repositories and switch between them, set `TOOLKIT_REPOS` instead, a
+comma-separated list of `name=path` pairs:
+
+```bash
+TOOLKIT_REPOS="shop=../acme-shop,widgets=../widgets" npm run dev
+```
+
+A switcher then appears in the header; `TOOLKIT_DATA_DIR` and `--data` are ignored while
+`TOOLKIT_REPOS` is set.
+
 ## Configuration
 
 | Setting            | Meaning                                                              | Default   |
 | ------------------ | -------------------------------------------------------------------- | --------- |
 | `TOOLKIT_DATA_DIR` | Directory to read; a repository root or a prepared data directory    | `.`       |
 | `--data <dir>`     | Same as `TOOLKIT_DATA_DIR`, takes precedence when both are given     |           |
+| `TOOLKIT_REPOS`    | `name=path,name=path,...`; several repositories with a switcher      | unset     |
 | `TOOLKIT_NOW`      | ISO 8601 instant used as "now" for expiry warnings and trend windows | the clock |
 
 ## Building and testing

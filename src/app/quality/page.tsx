@@ -3,7 +3,7 @@ import { Sparkline } from "@/components/Sparkline";
 import { TrendChart } from "@/components/TrendChart";
 import type { Severity } from "@/data/tql";
 import { formatDate, pluralise } from "@/lib/format";
-import { dashboardContext } from "@/server/context";
+import { dashboardContext, type PageSearchParams } from "@/server/context";
 import { qualityView } from "@/server/quality";
 import styles from "./page.module.css";
 
@@ -11,8 +11,9 @@ export const dynamic = "force-dynamic";
 
 const SEVERITY_BADGE: Record<Severity, string> = { ERROR: "critical", WARN: "warning", INFO: "" };
 
-export default function QualityPage() {
-  const context = dashboardContext();
+export default async function QualityPage({ searchParams }: { searchParams: PageSearchParams }) {
+  const { repo } = await searchParams;
+  const context = dashboardContext(repo);
   const view = qualityView(context);
   if (view === undefined) {
     return (

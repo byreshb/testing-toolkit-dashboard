@@ -3,15 +3,17 @@ import { EmptyState } from "@/components/EmptyState";
 import { StatTile } from "@/components/StatTile";
 import { readOverview } from "@/data/overview";
 import { formatDate, formatPercent, formatScore, pluralise, shortTestId } from "@/lib/format";
+import { repoHref } from "@/lib/repo-link";
 import { lastDelta } from "@/lib/stats";
-import { dashboardContext } from "@/server/context";
+import { dashboardContext, type PageSearchParams } from "@/server/context";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
-export default function OverviewPage() {
-  const { dataDir, now } = dashboardContext();
-  const overview = readOverview(dataDir, now);
+export default async function OverviewPage({ searchParams }: { searchParams: PageSearchParams }) {
+  const { repo } = await searchParams;
+  const context = dashboardContext(repo);
+  const overview = readOverview(context.dataDir, context.now);
   const { flake, quarantine, lint, evals } = overview;
   const flakeRates = flake?.trend.map((p) => p.rate) ?? [];
   const lintCounts = lint?.trend.map((p) => p.findings) ?? [];
@@ -23,13 +25,14 @@ export default function OverviewPage() {
     <>
       <h1>Overview</h1>
       <p className="muted">
-        Reading <code>{dataDir}</code>, as of {formatDate(overview.now)}.
+        Reading <strong>{context.activeRepo.name}</strong> (<code>{context.dataDir}</code>), as of{" "}
+        {formatDate(overview.now)}.
       </p>
       <div className={styles.tiles}>
         <StatTile
           testId="tile-flaky"
           label="Flaky tests"
-          href="/flaky"
+          href={repoHref("/flaky", repo)}
           value={String(flake?.flakyTests ?? 0)}
           detail={
             flake === null
@@ -65,7 +68,7 @@ export default function OverviewPage() {
         <StatTile
           testId="tile-quality"
           label="Test quality findings"
-          href="/quality"
+          href={repoHref("/quality", repo)}
           value={String(lint?.latestFindings ?? 0)}
           detail={
             lint === null
@@ -95,7 +98,7 @@ export default function OverviewPage() {
         <StatTile
           testId="tile-evals"
           label="LLM eval score"
-          href="/evals"
+          href={repoHref("/evals", repo)}
           value={formatScore(evals?.latestMeanScore)}
           detail={
             evals === null
@@ -136,7 +139,9 @@ export default function OverviewPage() {
             {expired.map((e) => (
               <li key={e.test}>
                 <span className="badge critical">expired</span>{" "}
-                <Link href={`/flaky/${encodeURIComponent(e.test)}`}>{shortTestId(e.test)}</Link>{" "}
+                <Link href={repoHref(`/flaky/${encodeURIComponent(e.test)}`, repo)}>
+                  {shortTestId(e.test)}
+                </Link>{" "}
                 expired on {e.expires} ({pluralise(-e.daysLeft, "day")} ago), owner{" "}
                 {e.owner || "unknown"}.
               </li>
@@ -144,7 +149,9 @@ export default function OverviewPage() {
             {expiring.map((e) => (
               <li key={e.test}>
                 <span className="badge warning">expiring</span>{" "}
-                <Link href={`/flaky/${encodeURIComponent(e.test)}`}>{shortTestId(e.test)}</Link>{" "}
+                <Link href={repoHref(`/flaky/${encodeURIComponent(e.test)}`, repo)}>
+                  {shortTestId(e.test)}
+                </Link>{" "}
                 expires on {e.expires} (in {pluralise(e.daysLeft, "day")}), owner{" "}
                 {e.owner || "unknown"}.
               </li>

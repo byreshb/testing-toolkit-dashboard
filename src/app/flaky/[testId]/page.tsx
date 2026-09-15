@@ -2,16 +2,23 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { OutcomeLegend, OutcomeStrip } from "@/components/OutcomeStrip";
 import { formatDateTime, formatScore, pluralise } from "@/lib/format";
-import { dashboardContext } from "@/server/context";
+import { repoHref } from "@/lib/repo-link";
+import { dashboardContext, type PageSearchParams } from "@/server/context";
 import { flakyView } from "@/server/flaky";
 import styles from "./page.module.css";
 
 export const dynamic = "force-dynamic";
 
-export default async function TestPage({ params }: { params: Promise<{ testId: string }> }) {
-  const { testId } = await params;
+export default async function TestPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ testId: string }>;
+  searchParams: PageSearchParams;
+}) {
+  const [{ testId }, { repo }] = await Promise.all([params, searchParams]);
   const id = decodeURIComponent(testId);
-  const view = flakyView(dashboardContext());
+  const view = flakyView(dashboardContext(repo));
   const score = view?.scores.find((s) => s.testId === id);
   if (view === undefined || score === undefined) {
     notFound();
@@ -22,7 +29,7 @@ export default async function TestPage({ params }: { params: Promise<{ testId: s
   return (
     <>
       <p>
-        <Link href="/flaky">← Flaky tests</Link>
+        <Link href={repoHref("/flaky", repo)}>← Flaky tests</Link>
       </p>
       <h1>
         <code>{score.className}</code>

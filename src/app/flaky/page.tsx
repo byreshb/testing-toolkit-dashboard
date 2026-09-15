@@ -5,7 +5,8 @@ import { TrendChart } from "@/components/TrendChart";
 import { FLAKY_THRESHOLD } from "@/data/flake";
 import type { QuarantineEntry } from "@/data/quarantine";
 import { formatDate, formatScore, pluralise, shortTestId } from "@/lib/format";
-import { dashboardContext } from "@/server/context";
+import { repoHref } from "@/lib/repo-link";
+import { dashboardContext, type PageSearchParams } from "@/server/context";
 import { flakyView } from "@/server/flaky";
 import styles from "./page.module.css";
 
@@ -17,8 +18,9 @@ const STATUS_BADGE: Record<QuarantineEntry["status"], string> = {
   expired: "critical",
 };
 
-export default function FlakyPage() {
-  const context = dashboardContext();
+export default async function FlakyPage({ searchParams }: { searchParams: PageSearchParams }) {
+  const { repo } = await searchParams;
+  const context = dashboardContext(repo);
   const view = flakyView(context);
   if (view === undefined) {
     return (
@@ -87,7 +89,10 @@ export default function FlakyPage() {
                 <tr key={s.testId} data-testid="flaky-row">
                   <td className="num">{index + 1}</td>
                   <td>
-                    <Link className={styles.test} href={`/flaky/${encodeURIComponent(s.testId)}`}>
+                    <Link
+                      className={styles.test}
+                      href={repoHref(`/flaky/${encodeURIComponent(s.testId)}`, repo)}
+                    >
                       {shortTestId(s.testId)}
                     </Link>
                     {entry !== undefined && (
@@ -150,7 +155,10 @@ export default function FlakyPage() {
                     <span className={`badge ${STATUS_BADGE[e.status]}`}>{e.status}</span>
                   </td>
                   <td>
-                    <Link className={styles.test} href={`/flaky/${encodeURIComponent(e.test)}`}>
+                    <Link
+                      className={styles.test}
+                      href={repoHref(`/flaky/${encodeURIComponent(e.test)}`, repo)}
+                    >
                       {shortTestId(e.test)}
                     </Link>
                   </td>
