@@ -1,6 +1,6 @@
 {
   "name": "testing-toolkit-dashboard",
-  "version": "1.0.0",
+  "version": "1.0.1-dev",
   "description": "Web dashboard for test health: flaky-test trends, test-quality findings and LLM evaluation drift, read from the files the testing toolkit produces",
   "license": "Apache-2.0",
   "private": false,
