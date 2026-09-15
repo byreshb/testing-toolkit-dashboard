@@ -37,12 +37,14 @@ Delete the release on GitHub, delete the tag (`git push origin :refs/tags/vX.Y.Z
 `git tag -d vX.Y.Z`), fix the problem, and tag again. Never reuse a version number that anyone
 may already have downloaded; prefer releasing a patch version instead.
 
-## npm (planned, not set up yet)
+## npm (launcher built, publishing not set up yet)
 
-> **Status: not done.** Nothing below is configured in this repository. The steps are recorded so
-> the work can be picked up later. Publishing to npm is free for public packages.
+> **Status: the package is ready to publish; publishing itself is not done.** The `files` list,
+> the `bin/cli.js` launcher and the standalone build it runs are all in place and tested
+> locally (`npm run build && node bin/cli.js --data <dir>`); nothing below has been run against
+> the npm registry yet. Publishing to npm is free for public packages.
 
-Once done, users will run the dashboard without cloning:
+Once published, users will run the dashboard without cloning:
 
 ```bash
 npx testing-toolkit-dashboard --data ./.flake
@@ -69,8 +71,11 @@ npx testing-toolkit-dashboard --data ./.flake
    and `id-token: write` under `permissions`. With trusted publishing the token secret is not
    needed; keep it until that is verified.
 
-5. **Package contents.** `files` in `package.json` must include the built `.next/` output,
-   `public/` and the `bin/` launcher so the package runs without a build step.
+5. **Package contents.** Already done: `files` in `package.json` lists `bin/`,
+   `.next/standalone`, `.next/static` and `public/`, and the release workflow's `npm run build`
+   step produces them (with `output: "standalone"` in `next.config.ts` and a `postbuild` script
+   that copies the static assets next to the standalone server), so `npm pack` ships a
+   ready-to-run package with no separate `npm install` on the consumer's side.
 
 ### Per-release steps (once set up)
 

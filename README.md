@@ -74,6 +74,24 @@ A switcher then appears in the header; `TOOLKIT_DATA_DIR` and `--data` are ignor
 | `TOOLKIT_REPOS`    | `name=path,name=path,...`; several repositories with a switcher      | unset     |
 | `TOOLKIT_NOW`      | ISO 8601 instant used as "now" for expiry warnings and trend windows | the clock |
 
+## Running the built package
+
+Once published (see [Releasing](#releasing)), running the dashboard needs no checkout:
+
+```bash
+npx testing-toolkit-dashboard --data ./.flake
+```
+
+Until then, build it from a checkout and run the same launcher directly:
+
+```bash
+npm run build                                  # produces .next/standalone
+node bin/cli.js --data fixtures/acme-shop --port 3000
+```
+
+`--port` defaults to 3000 (or `PORT`); `--data` takes precedence over `TOOLKIT_DATA_DIR`, and
+`TOOLKIT_REPOS`/`TOOLKIT_NOW` work the same as in development.
+
 ## Building and testing
 
 ```bash

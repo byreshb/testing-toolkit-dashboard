@@ -8,6 +8,9 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- `bin/cli.js` launcher (`testing-toolkit-dashboard --data <dir>`) running the Next.js
+  standalone build; `next.config.ts` now builds that standalone server and trims the fixture
+  data and test files the file tracer would otherwise sweep in.
 - Multi-repository support: `TOOLKIT_REPOS` configures several repositories, and a switcher
   in the header moves between them, carrying the choice across page navigation and through
   `?repo=` on the JSON API.
