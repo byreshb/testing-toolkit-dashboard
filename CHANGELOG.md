@@ -6,6 +6,12 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- LLM evals page: score-over-time trend, a prompt-and-model comparison table, a drift table
+  against the matching baseline with regressed cases flagged, scores by tag, and every case
+  in the latest run with its checks, cost and latency. Backed by `/api/evals`.
+
 ## [1.0.0] - 2026-09-14
 
 ### Added
