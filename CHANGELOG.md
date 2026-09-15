@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-09-14
+
 ### Added
 
 - Test quality page: findings-over-time trend chart, a findings-per-rule table with a
@@ -33,4 +35,5 @@ All notable changes to this project are documented here. The format follows
   LLM evaluation harness's reports and baselines.
 - Data directory resolution through `TOOLKIT_DATA_DIR` or the `--data` flag.
 
-[Unreleased]: https://github.com/byreshb/testing-toolkit-dashboard/commits/main
+[Unreleased]: https://github.com/byreshb/testing-toolkit-dashboard/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/byreshb/testing-toolkit-dashboard/releases/tag/v1.0.0
